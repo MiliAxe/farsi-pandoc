@@ -1,0 +1,107 @@
+\documentclass{article}
+
+\def\tightlist{}
+
+\usepackage{graphicx}
+
+\usepackage{xcolor}
+$if(geometry)$
+\usepackage[$for(geometry)$$geometry$$sep$,$endfor$]{geometry}
+$endif$
+\usepackage{amsmath,amssymb}
+$--
+$-- section numbering
+$--
+$if(numbersections)$
+\setcounter{secnumdepth}{$if(secnumdepth)$$secnumdepth$$else$5$endif$}
+$else$
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+$endif$
+$fonts.latex()$
+$font-settings.latex()$
+$common.latex()$
+$for(header-includes)$
+$header-includes$
+$endfor$
+$after-header-includes.latex()$
+$hypersetup.latex()$
+
+\usepackage{minted}
+
+% Configure Minted Style
+\usemintedstyle{tango} % Options: friendly, colorful, tango, vs, etc.
+
+% Global settings for minted blocks
+\setminted{
+    frame=lines,        % Adds lines above/below
+    framesep=2mm,
+    baselinestretch=1.2,
+    fontsize=\footnotesize,
+    numbersep=5pt,      % Distance of numbers
+    autogobble,         % Remove leading whitespace
+    linenos,
+    breaklines          % Wrap long lines
+}
+
+% Fix for Farsi/RTL: Ensure code runs Left-to-Right
+\BeforeBeginEnvironment{minted}{\begin{latin}}
+\AfterEndEnvironment{minted}{\end{latin}}
+% ---------------------------
+
+\usepackage{hyperref}
+\usepackage{xepersian}
+\settextfont[Scale=1]{Vazirmatn}
+\setmonofont[Scale=0.9]{JetBrains Mono}
+
+\newcommand{\hideFromPandoc}[1]{#1}
+\hideFromPandoc{
+    \let\Begin\begin
+    \let\End\end
+}
+
+% Set Persian font
+\settextfont{Vazirmatn}
+
+\begin{document}
+
+% Title Page
+\begin{titlepage}
+    \centering
+
+    % Title
+    \vspace*{2cm}
+    {\Huge \textbf{$title$}} \\[1cm]
+    
+    % Subtitle (if any)
+    {\LARGE $subtitle$} \\[2cm]
+    
+    % Author's name
+    {\Large \textbf{$author$}} \\[0.5cm]
+    
+    % Date
+    {\large $date$} \\[1cm]
+
+    % TAs names
+    $if(tas)$
+    {\large \textbf{$taheader$}} \\[0.5cm]
+    $for(tas)$
+    {\large $tas$} \\[0.5cm]
+    $endfor$
+    \vspace{1cm}
+    $endif$
+    
+    % Logo at the bottom
+    \includegraphics[width=0.2\textwidth]{~/.pandoc/templates/iustlogo.png} \\[0.2cm]
+    \textbf{$university$}
+
+    % Custom field for semester
+    {\large $semester$}
+
+\end{titlepage}
+
+$if(toc)$
+\tableofcontents
+$endif$
+
+$body$
+\end{document}

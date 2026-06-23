@@ -1,0 +1,93 @@
+\documentclass[twocolumn]{article}
+
+\def\tightlist{}
+
+\usepackage{graphicx}
+
+\usepackage{xcolor}
+$if(geometry)$
+\usepackage[$for(geometry)$$geometry$$sep$,$endfor$]{geometry}
+$endif$
+\usepackage{amsmath,amssymb}
+$--
+$-- section numbering
+$--
+$if(numbersections)$
+\setcounter{secnumdepth}{$if(secnumdepth)$$secnumdepth$$else$5$endif$}
+$else$
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+$endif$
+$fonts.latex()$
+$font-settings.latex()$
+$common.latex()$
+$for(header-includes)$
+$header-includes$
+$endfor$
+$after-header-includes.latex()$
+$hypersetup.latex()$
+
+\usepackage{hyperref}
+\usepackage{xepersian}
+\settextfont[Scale=1]{Vazirmatn}
+\setmonofont[Scale=0.9]{JetBrains Mono}
+
+\newcommand{\hideFromPandoc}[1]{#1}
+\hideFromPandoc{
+    \let\Begin\begin
+    \let\End\end
+}
+
+% Set Persian font
+\settextfont{Vazirmatn}
+
+\begin{document}
+
+% Title Page
+\begin{titlepage}
+    \centering
+
+    % Title
+    \vspace*{2cm}
+    {\Huge \textbf{$title$}} \\[1cm]
+    
+    % Subtitle (if any)
+    {\LARGE $papername$} \\[2cm]
+    
+    % Author's name
+    {\Large \textbf{$author$}} \\[0.5cm]
+    
+    % Date
+    {\large $date$} \\[1cm]
+
+    % TAs names
+    $if(tas)$
+    {\large \textbf{$taheader$}} \\[0.5cm]
+    $for(tas)$
+    {\large $tas$} \\[0.5cm]
+    $endfor$
+    \vspace{1cm}
+    $endif$
+
+    \vspace{0.4cm}
+
+    \textbf{$mentortitle$}
+
+    $mentor$ \\[0.4cm]
+
+    \vspace{1cm}
+    
+    % Logo at the bottom
+    \includegraphics[width=0.2\textwidth]{~/.pandoc/templates/iustlogo.png} \\[0.2cm]
+    \textbf{$labname$}
+
+    $professor$
+
+    \vspace{1cm}
+
+    % Custom field for semester
+    {\large $semester$}
+
+\end{titlepage}
+
+$body$
+\end{document}
